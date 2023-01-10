@@ -1,4 +1,4 @@
-package com.arc.app.controller;
+package com.arc.app.core.controller;
 
 import com.arc.app.core.dto.ParameterDto;
 import com.arc.app.core.dto.SearchDto;
