@@ -1,0 +1,31 @@
+<vex-secondary-toolbar [current]="isCreateMode ? 'Nhập báo cáo' : 'Chỉnh sửa báo cáo'">
+    <globits-breadcrumbs [crumbs]="breadcrumbs" class="flex-auto"></globits-breadcrumbs>
+
+    <button class="ml-2" color="primary" mat-icon-button type="button">
+        <mat-icon svgIcon="mat:more_vert"></mat-icon>
+    </button>
+</vex-secondary-toolbar>
+<div class="p-gutter fullwidth">
+    <div class="flex flex-col sm:flex-row gap-4">
+        <div class="card flex-auto">
+            <form (ngSubmit)="onSubmit()" [formGroup]="form" class="px-6 py-4 flex flex-col">
+                <div class="card flex-auto">
+                    <div class="px-6 py-4 border-b flex items-center"
+                        style="background-color: #006778; border-radius: 10px 10px 0 0;">
+                        <h2 style="color: #ffffff; font-size: 18px;" class="title m-0">KẾT QUẢ HOẠT ĐỘNG GIẢM THIỂU TÁC HẠI</h2>
+                    </div>
+                </div>
+                <div class="px-6 py-4 flex flex-col">
+                    <div class="flex flex-col sm:flex-row sm:gap-4">
+                        <globits-date-picker class="flex-auto" [label]="'Ngày báo cáo'"
+                            [control]="f.reportDate" [controlName]="'reportDate'"></globits-date-picker>
+                        <globits-select class="flex-auto" [label]="'Quý'" [control]="f.quarter"
+                            [controlName]="'quarter'" [options]="listQuarter"></globits-select>
+                        <globits-select class="flex-auto" [label]="'Năm'"
+                            [control]="f.year" [controlName]="'year'" [options]="listYear"></globits-select>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -38,23 +38,20 @@ public class ParameterServiceImpl implements ParameterService {
     @Override
     public ParameterDto find(Long id) {
         if(id != null) {
-            Parameter parameter = repository.find(id);
-            if(parameter != null) {
-                return new ParameterDto(parameter);
+            Parameter entity = repository.find(id);
+            if(entity != null) {
+                return new ParameterDto(entity);
             }
         }
         return null;
     }
 
     @Override
-    public ParameterDto save(ParameterDto dto, Long id) {
+    public ParameterDto save(ParameterDto dto) {
         if(dto == null) {
             return null;
         }
         Parameter parameter = null;
-        if(id != null) {
-            parameter = repository.find(id);
-        }
         if(dto.getId() != null) {
             parameter =  repository.find(dto.getId());
         }
@@ -111,7 +108,7 @@ public class ParameterServiceImpl implements ParameterService {
                 pageIndex = 0;
             }
             String sqlSelect = "Select new com.arc.app.dto.ParameterDto(entity) From Parameter entity ";
-            String sqlCount = "Select count(entity.id) From Ethnics entity ";
+            String sqlCount = "Select count(entity.id) From Parameter entity ";
             String orderBy = " Order By entity.code ";
             String whereClause = " Where (1=1) ";
             if(dto.getTypeParameter() != null) {

@@ -1,5 +1,6 @@
 package com.arc.app.core.service;
 
+import com.arc.app.core.dto.BaseObjectDto;
 import com.arc.app.core.dto.ParameterDto;
 import com.arc.app.core.dto.SearchDto;
 import org.springframework.data.domain.Page;
@@ -11,7 +12,7 @@ public interface ParameterService {
 
     ParameterDto find(Long id);
 
-    ParameterDto save(ParameterDto dto, Long id);
+    ParameterDto save(ParameterDto dto);
 
     Boolean isExist(String code);
 

@@ -1,0 +1,77 @@
+<div class="w-full h-full bg-pattern flex flex-col items-center justify-center container-fluid">
+  <div style="width:100%; top:0">
+    <div class="title-login-form">
+      <div class="title-login-form-logo">
+        <img src="assets/img/demo/logo.png" alt="logo" />
+      </div>
+      <div class="d-flex align-center">
+        <h1>
+          <div class="title">
+            <span class="text-red">HIV</span><span class="text-green">INFO</span><span
+              class="font-normal text-color-dark">v4.0</span>
+          </div>
+          <div class="subtitle">
+            <small class="text-color-dark fs-18px d-block">Thông tin HIV/AIDS</small>
+          </div>
+        </h1>
+      </div>
+      <div class="chart-icon">
+        <img src="assets/img/login/Chart.png" alt="" />
+      </div>
+    </div>
+  </div>
+
+  <div @fadeInUp class="card overflow-hidden w-full max-w-lg">
+
+    <div class="text-center mt-4">
+      <h2 class="title m-0">ĐĂNG NHẬP</h2>
+    </div>
+
+    <form (ngSubmit)="login()" [formGroup]="form" class="p-6 flex flex-col gap-4">
+      <div class="flex flex-col">
+        <mat-form-field class="flex-1">
+          <mat-label>Tên người dùng hoặc email</mat-label>
+          <input formControlName="username" matInput />
+          <mat-error *ngIf="f.username.hasError('required')">Bạn chưa nhập tên người dùng hoặc email</mat-error>
+        </mat-form-field>
+        <mat-form-field class="flex-1">
+          <mat-label>Mật khẩu</mat-label>
+          <input [type]="inputType" formControlName="password" matInput />
+          <button (click)="toggleVisibility()" mat-icon-button matSuffix matTooltip="Toggle Visibility" type="button">
+            <mat-icon *ngIf="visible" svgIcon="mat:visibility"></mat-icon>
+            <mat-icon *ngIf="!visible" svgIcon="mat:visibility_off"></mat-icon>
+          </button>
+          <mat-error *ngIf="f.password.hasError('required')">Bạn chưa nhập mật khẩu</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <mat-checkbox class="caption" color="primary">Tự động đăng nhập lần sau</mat-checkbox>
+        <a [routerLink]="['/forgot-password']" class="caption">Bạn quên mật khẩu ?</a>
+      </div>
+
+      <button color="primary" mat-raised-button type="submit">Đăng nhập</button>
+
+    </form>
+  </div>
+
+  <div style="width: 100%; bot:0">
+    <div class="footer-login-form">
+      <div class="d-flex flex-column justify-center pr-10">
+        <div>
+          <span class="footer-title">
+            Bản quyền thuộc về Cục Phòng, chống HIV/AIDS
+          </span>
+        </div>
+        <div>
+          <span class="footer-title"> Tài trợ bởi Chương trình PEPFAR </span>
+        </div>
+      </div>
+      <div class="footer-login-form-logo">
+        <img src="assets/img/login/Virus.png" alt="" class="footer-login-form-virus" />
+        <img src="assets/img/login/chart2.png" alt="" class="footer-login-form-chart2" />
+      </div>
+    </div>
+  </div>
+
+</div>

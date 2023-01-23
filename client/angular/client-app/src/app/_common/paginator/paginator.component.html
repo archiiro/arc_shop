@@ -1,0 +1,22 @@
+<div class="tool-item">Trình bày: <strong>{{firstOffset}} - {{lastOffset}}</strong> trong số
+    <strong>{{count}}</strong> mục.
+</div>
+<div class="tool-item">
+    <label for="per-page">
+        Mục mỗi trang:
+    </label>
+    <select id="per-page" (change)="onLimitChange($event)">
+        <option *ngFor="let option of pageSizeOptions" [value]="option" [selected]="option == size">
+            {{ option }}
+        </option>
+    </select>
+</div>
+<ul class="pager">
+    <li *ngIf="showFirst()"><a href="javascript:void(0)" (click)="selectPage(1)">1</a></li>
+    <li *ngIf="showFirst()"><a href="javascript:void(0)">...</a></li>
+    <li class="pages" *ngFor="let pg of pages" [class.active]="pg.number === page">
+        <a href="javascript:void(0)" (click)="selectPage(pg.number)">{{pg.text}}</a>
+    </li>
+    <li *ngIf="showLast()"><a href="javascript:void(0)">...</a></li>
+    <li *ngIf="showLast()"><a href="javascript:void(0)" (click)="selectPage(totalPages)">{{totalPages}}</a></li>
+</ul>

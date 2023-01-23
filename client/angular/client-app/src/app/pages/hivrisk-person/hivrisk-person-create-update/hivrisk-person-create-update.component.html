@@ -1,0 +1,35 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="form">
+  <div class="flex items-center" mat-dialog-title>
+    <h2 class="headline m-0 flex-auto">{{isCreateMode ? 'Thêm mới' : 'Cập nhật'}}</h2>
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon svgIcon="mat:close"></mat-icon>
+    </button>
+  </div>
+  <mat-divider class="mx-6 text-border"></mat-divider>
+  <mat-dialog-content class="flex flex-col px-4 py-6">
+    <div class="flex flex-col sm:flex-row gap-4">
+      <globits-input class="flex-auto " [label]="'Nhập họ'" [control]="f.firstName" [controlName]="'firstName'"
+        [requiredText]="'Không được phép để trống mã'">
+      </globits-input>
+      <globits-input class="flex-auto" [label]="'Nhập Tên'" [control]="f.lastName" [controlName]="'lastName'"
+        [requiredText]="'Không được phép để trống mã'">
+      </globits-input>
+    </div>
+    <div class="flex flex-col sm:flex-row gap-4">
+      <globits-date-picker class="flex-auto" [label]="'Nhập ngày sinh'" [control]="f.birthDate"
+        [controlName]="'birthDate'">
+      </globits-date-picker>
+      <globits-input class="flex-auto" [label]="'UIC'" [control]="f.uic" [controlName]="'uic'">
+      </globits-input>
+    </div>
+    <div class="flex flex-col sm:flex-row gap-4">
+      <globits-select class="flex-auto" [label]="'Đối tượng'" [control]="f.group" [controlName]="'group'"
+        [options]="listPopulationGroupDto" [objectValue]="true" [placeholder]="'Chọn câu trả lời'"
+        [requiredText]="'Đối tượng không được để trống'"></globits-select>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">Hủy</button>
+    <button color="primary" mat-flat-button type="submit">Lưu</button>
+  </mat-dialog-actions>
+</form>
