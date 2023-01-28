@@ -1,9 +1,7 @@
-package com.arc.app.core.controller;
+package com.arc.app.core.rest;
 
-import com.arc.app.core.dto.RoleDto;
 import com.arc.app.core.dto.SearchDto;
 import com.arc.app.core.dto.UserDto;
-import com.arc.app.core.service.RoleService;
 import com.arc.app.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

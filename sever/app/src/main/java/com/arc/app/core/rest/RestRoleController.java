@@ -1,8 +1,8 @@
-package com.arc.app.core.controller;
+package com.arc.app.core.rest;
 
-import com.arc.app.core.dto.ParameterDto;
+import com.arc.app.core.dto.RoleDto;
 import com.arc.app.core.dto.SearchDto;
-import com.arc.app.core.service.ParameterService;
+import com.arc.app.core.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -10,26 +10,26 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/ap/parameter")
-public class RestParameterController {
+@RequestMapping("/ap/role")
+public class RestRoleController {
     @Autowired
-    private ParameterService service;
+    private RoleService service;
 
-    @RequestMapping(value = "/get-all/{type}", method = RequestMethod.GET)
-    public List<ParameterDto> getAll(@PathVariable("type") Integer type) {
-        List<ParameterDto> result = service.getAll(type);
+    @RequestMapping(value = "/get-all", method = RequestMethod.GET)
+    public List<RoleDto> getAll() {
+        List<RoleDto> result = service.getAll();
         return result;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ParameterDto find(@PathVariable("id") Long id) {
-        ParameterDto result = service.find(id);
+    public RoleDto find(@PathVariable("id") Long id) {
+        RoleDto result = service.find(id);
         return result;
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ParameterDto save(@RequestBody ParameterDto dto) {
-        ParameterDto result = service.save(dto);
+    public RoleDto save(@RequestBody RoleDto dto) {
+        RoleDto result = service.save(dto);
         return result;
     }
 
@@ -46,9 +46,8 @@ public class RestParameterController {
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public Page<ParameterDto> search(@RequestBody SearchDto dto) {
-        Page<ParameterDto> result = service.search(dto);
+    public Page<RoleDto> search(@RequestBody SearchDto dto) {
+        Page<RoleDto> result = service.search(dto);
         return result;
     }
-
 }
