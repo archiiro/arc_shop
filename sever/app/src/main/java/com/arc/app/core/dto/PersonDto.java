@@ -31,6 +31,7 @@ public class PersonDto {
     private ParameterDto occupation;
     private AdministrativeDto address;
     private UserDto user;
+    private Set<ImagePathDto> imageCards;
 
     public PersonDto() {
 
@@ -70,6 +71,14 @@ public class PersonDto {
             }
             if(entity.getUser() != null) {
                 this.user = new UserDto(entity.getUser());
+            }
+            if(entity.getImageCards() != null && entity.getImageCards().size() > 0) {
+                this.imageCards.clear();
+                Iterator iterator = entity.getImageCards().iterator();
+                while (iterator.hasNext()) {
+                    ImagePath imageCard = (ImagePath) iterator.next();
+                    this.imageCards.add(new ImagePathDto(imageCard, false));
+                }
             }
         }
     }
@@ -224,5 +233,13 @@ public class PersonDto {
 
     public void setUser(UserDto user) {
         this.user = user;
+    }
+
+    public Set<ImagePathDto> getImageCards() {
+        return imageCards;
+    }
+
+    public void setImageCards(Set<ImagePathDto> imageCards) {
+        this.imageCards = imageCards;
     }
 }

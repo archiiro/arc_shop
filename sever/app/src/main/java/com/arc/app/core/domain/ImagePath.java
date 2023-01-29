@@ -11,6 +11,9 @@ public class ImagePath {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "extension")
+    private String extension;
+
     @Column(name = "type")
     private String type;
 
@@ -20,12 +23,24 @@ public class ImagePath {
     @Column(name = "name")
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "id_person")
+    private Person person;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 
     public String getType() {
@@ -50,5 +65,13 @@ public class ImagePath {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }

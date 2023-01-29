@@ -1,18 +1,15 @@
 package com.arc.app.core.rest;
 
-import com.arc.app.core.dto.ParameterDto;
 import com.arc.app.core.dto.PersonDto;
-import com.arc.app.core.dto.SearchDto;
 import com.arc.app.core.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/ap/person")
+@RequestMapping("/api/person")
 public class RestPersonController {
     @Autowired
     private PersonService service;
@@ -36,8 +33,14 @@ public class RestPersonController {
     }
 
     @RequestMapping(value = "/avatar/{id}", method = RequestMethod.POST)
-    public PersonDto saveAvatar(@PathVariable("id") Long id, @RequestParam("avatar") MultipartFile multipartFile) {
-        PersonDto result = service.saveAvatar(id, multipartFile);
+    public PersonDto saveAvatar(@PathVariable("id") Long id, @RequestParam("avatar") MultipartFile file) {
+        PersonDto result = service.saveAvatar(id, file);
+        return result;
+    }
+
+    @RequestMapping(value = "/image-card/{id}", method = RequestMethod.POST)
+    public PersonDto saveImageCard(@PathVariable("id") Long id, @RequestParam("imageCard") List<MultipartFile> listFile) {
+        PersonDto result = service.saveImageCard(id, listFile);
         return result;
     }
 

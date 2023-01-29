@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/ap/parameter")
+@RequestMapping("/api/parameter")
 public class RestParameterController {
     @Autowired
     private ParameterService service;

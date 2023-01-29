@@ -14,10 +14,10 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "first-name")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last-name")
+    @Column(name = "last_name")
     private String lastName;
 
     @Column(name = "birth_date")
@@ -29,10 +29,10 @@ public class Person {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "id-card")
+    @Column(name = "id_card")
     private String idCard;
 
-    @Column(name = "card-issue-by")
+    @Column(name = "card_issue_by")
     private String cardIssueBy;
 
     @Column(name = "card_issue_date")
@@ -41,7 +41,7 @@ public class Person {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "address-detail")
+    @Column(name = "address_detail")
     private String addressDetail;
 
     @Column(name = "locked")
@@ -72,8 +72,11 @@ public class Person {
     private Administrative address;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "id_user")
     private User user;
+
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, orphanRemoval = true)
+    private Set<ImagePath> imageCards;
 
     public Long getId() {
         return id;
@@ -225,5 +228,13 @@ public class Person {
 
     public void setLocked(Boolean locked) {
         isLocked = locked;
+    }
+
+    public Set<ImagePath> getImageCards() {
+        return imageCards;
+    }
+
+    public void setImageCards(Set<ImagePath> imageCards) {
+        this.imageCards = imageCards;
     }
 }

@@ -4,6 +4,8 @@ import com.arc.app.core.domain.ImagePath;
 
 public class ImagePathDto {
     private Long id;
+
+    private String extension;
     private String type;
     private Long size;
     private String name;
@@ -17,6 +19,7 @@ public class ImagePathDto {
             this.id = entity.getId();
             this.name = entity.getName();
             if(isGetFull) {
+                this.extension = entity.getExtension();
                 this.type = entity.getType();
                 this.size = entity.getSize();
             }
@@ -29,6 +32,14 @@ public class ImagePathDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 
     public String getType() {
