@@ -1,10 +1,15 @@
 package com.arc.app.core.service.impl;
 
+import com.arc.app.core.domain.Administrative;
+import com.arc.app.core.domain.Cooperate;
 import com.arc.app.core.domain.Parameter;
+import com.arc.app.core.dto.AdministrativeDto;
+import com.arc.app.core.dto.CooperateDto;
 import com.arc.app.core.dto.ParameterDto;
 import com.arc.app.core.dto.SearchDto;
-import com.arc.app.core.repository.ParameterRepository;
-import com.arc.app.core.service.ParameterService;
+import com.arc.app.core.repository.AdministrativeRepository;
+import com.arc.app.core.repository.CooperateRepository;
+import com.arc.app.core.service.CooperateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -20,58 +25,65 @@ import java.util.List;
 
 @Transactional
 @Service
-public class ParameterServiceImpl implements ParameterService {
+public class CooperateServiceImpl implements CooperateService {
     @PersistenceContext
     private EntityManager manager;
+
     @Autowired
-    private ParameterRepository repository;
+    private CooperateRepository repository;
+
+    @Autowired
+    private AdministrativeRepository administrativeRepository;
 
     @Override
-    public List<ParameterDto> getAll(Integer type) {
+    public List<CooperateDto> getAll(Integer type) {
         if(type != null) {
-            List<ParameterDto> result = repository.getAll(type);
+            List<CooperateDto> result = repository.getAll(type);
             return result;
         }
         return null;
     }
 
     @Override
-    public ParameterDto find(Long id) {
+    public CooperateDto find(Long id) {
         if(id != null) {
-            Parameter entity = repository.find(id);
+            Cooperate entity = repository.find(id);
             if(entity != null) {
-                return new ParameterDto(entity);
+                return new CooperateDto(entity);
             }
         }
         return null;
     }
 
     @Override
-    public ParameterDto save(ParameterDto dto) {
+    public CooperateDto save(CooperateDto dto) {
         if(dto == null) {
             return null;
         }
-        Parameter parameter = null;
+        Cooperate cooperate = null;
         if(dto.getId() != null) {
-            parameter =  repository.find(dto.getId());
+            cooperate = repository.find(dto.getId());
         }
-        if(parameter == null) {
-            parameter = new Parameter();
+        if(cooperate == null) {
+            cooperate = new Cooperate();
         }
-        if(dto.getCode() != null) {
-            parameter.setCode(dto.getCode());
-        }
-        if(dto.getName() != null) {
-            parameter.setName(dto.getName());
-        }
-        if(dto.getDescription() != null) {
-            parameter.setDescription(dto.getDescription());
+        if(dto.getStatus() != null) {
+            cooperate.setStatus(dto.getStatus());
         }
         if(dto.getType() != null) {
-            parameter.setType(dto.getType());
+            cooperate.setType(dto.getType());
         }
-        parameter = repository.save(parameter);
-        return new ParameterDto(parameter);
+        if(dto.getAddressDetail() != null) {
+            cooperate.setAddressDetail(dto.getAddressDetail());
+        }
+        if(dto.getAddress() != null && dto.getAddress().getId() != null) {
+            Administrative address = administrativeRepository.find(dto.getAddress().getId());
+            if(address != null) {
+                cooperate.setAddress(address);
+            }
+        }
+        cooperate = repository.save(cooperate);
+        return new CooperateDto(cooperate);
     }
 
     @Override
@@ -88,9 +100,9 @@ public class ParameterServiceImpl implements ParameterService {
     @Override
     public Boolean delete(Long id) {
         if(id != null) {
-            Parameter parameter = repository.find(id);
-            if(parameter != null) {
-                repository.delete(parameter);
+            Cooperate cooperate = repository.find(id);
+            if(cooperate != null) {
+                repository.delete(cooperate);
                 return true;
             }
         }
@@ -98,7 +110,17 @@ public class ParameterServiceImpl implements ParameterService {
     }
 
     @Override
-    public Page<ParameterDto> search(SearchDto dto) {
+    public void makeDelete(Long id) {
+        if(id != null) {
+            Cooperate cooperate = repository.find(id);
+            if(cooperate != null) {
+                cooperate.setStatus(2);
+            }
+        }
+    }
+
+    @Override
+    public Page<CooperateDto> search(SearchDto dto) {
         if(dto != null && dto.getPageIndex() != null && dto.getPageSize() != null) {
             int pageIndex = dto.getPageIndex();
             int pageSize = dto.getPageSize();
@@ -107,8 +129,8 @@ public class ParameterServiceImpl implements ParameterService {
             } else {
                 pageIndex = 0;
             }
-            String sqlSelect = "Select new com.arc.app.dto.ParameterDto(entity) From Parameter entity ";
-            String sqlCount = "Select count(entity.id) From Parameter entity ";
+            String sqlSelect = "Select new com.arc.app.dto.CooperateDto(entity) From Cooperate entity ";
+            String sqlCount = "Select count(entity.id) From Cooperate entity ";
             String orderBy = " Order By entity.code ";
             String whereClause = " Where (1=1) ";
             if(dto.getType() != null) {
@@ -119,7 +141,7 @@ public class ParameterServiceImpl implements ParameterService {
             }
             sqlSelect += whereClause + orderBy;
             sqlCount += whereClause;
-            Query q = this.manager.createQuery(sqlSelect, ParameterDto.class);
+            Query q = this.manager.createQuery(sqlSelect, CooperateDto.class);
             Query qCount = this.manager.createQuery(sqlCount);
             if(dto.getType() != null) {
                 q.setParameter("type",  dto.getType());
@@ -133,7 +155,7 @@ public class ParameterServiceImpl implements ParameterService {
             q.setMaxResults(pageSize);
             Long number = (Long) qCount.getSingleResult();
             Pageable pageable = PageRequest.of(pageIndex, pageSize);
-            Page<ParameterDto> page = new PageImpl<>(q.getResultList(), pageable , number);
+            Page<CooperateDto> page = new PageImpl<>(q.getResultList(), pageable , number);
             return page;
         }
         return null;

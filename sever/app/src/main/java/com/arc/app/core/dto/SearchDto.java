@@ -6,7 +6,7 @@ public class SearchDto {
     private String textSearch;
     private Long parentId;
 
-    private Integer typeParameter;
+    private Integer type;
 
     public Integer getPageIndex() {
         return pageIndex;
@@ -32,12 +32,12 @@ public class SearchDto {
         this.textSearch = textSearch;
     }
 
-    public Integer getTypeParameter() {
-        return typeParameter;
+    public Integer getType() {
+        return type;
     }
 
-    public void setTypeParameter(Integer typeParameter) {
-        this.typeParameter = typeParameter;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public Long getParentId() {

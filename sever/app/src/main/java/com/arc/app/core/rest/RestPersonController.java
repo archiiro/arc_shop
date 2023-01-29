@@ -44,7 +44,7 @@ public class RestPersonController {
         return result;
     }
 
-    @RequestMapping(value = "/avatar/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/lock/{id}", method = RequestMethod.DELETE)
     public void makeDelete(@PathVariable("id") Long id) {
         service.makeDelete(id);
     }
