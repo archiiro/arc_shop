@@ -27,6 +27,10 @@ public class ImagePath {
     @JoinColumn(name = "id_person")
     private Person person;
 
+    @ManyToOne
+    @JoinColumn(name = "id_product")
+    private Product product;
+
     public Long getId() {
         return id;
     }
@@ -73,5 +77,13 @@ public class ImagePath {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }
