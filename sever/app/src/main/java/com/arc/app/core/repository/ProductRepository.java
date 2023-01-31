@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("Select new com.arc.app.core.dto.ProductDto(entity, true) From Product entity")
-    List<ProductDto> getAll(Integer type);
+    List<ProductDto> getAll();
 
     @Query("Select count(entity.id) From Product entity Where entity.code = ?1")
     Long count(String code);
