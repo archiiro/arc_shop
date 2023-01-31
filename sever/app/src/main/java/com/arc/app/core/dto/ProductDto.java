@@ -34,11 +34,11 @@ public class ProductDto extends MetaObjectDto{
             }
             if(isGetFull) {
                 this.setDescription(entity.getDescription());
-            }
-            Iterator iterator = entity.getImageProducts().iterator();
-            while (iterator.hasNext()) {
-                ImagePath image = (ImagePath) iterator.next();
-                this.imageProducts.add(new ImagePathDto(image, false));
+                Iterator iterator = entity.getImageProducts().iterator();
+                while (iterator.hasNext()) {
+                    ImagePath image = (ImagePath) iterator.next();
+                    this.imageProducts.add(new ImagePathDto(image, false));
+                }
             }
         }
     }

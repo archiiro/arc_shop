@@ -9,6 +9,8 @@ import java.util.Set;
 
 public class ProductCategoryDto extends MetaObjectDto{
     private Long id;
+
+    private Integer status;
     private Set<ProductDto> products;
 
     public ProductCategoryDto() {
@@ -20,6 +22,7 @@ public class ProductCategoryDto extends MetaObjectDto{
             this.id = entity.getId();
             this.setCode(entity.getCode());
             this.setName(entity.getName());
+            this.status = entity.getStatus();
             if(isGetFull) {
                 this.setDescription(entity.getDescription());
                 if(entity.getProducts() != null && entity.getProducts().size() > 0) {
@@ -40,6 +43,14 @@ public class ProductCategoryDto extends MetaObjectDto{
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public Set<ProductDto> getProducts() {

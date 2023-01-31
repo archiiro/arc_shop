@@ -12,6 +12,9 @@ public class ProductCategory extends MetaObject{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "status")
+    private Integer status; // 1: Mo, 2: Khoa
+
     @OneToMany(mappedBy = "productCategory", fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, orphanRemoval = true)
     private Set<Product> products;
 
@@ -21,6 +24,14 @@ public class ProductCategory extends MetaObject{
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public Set<Product> getProducts() {
