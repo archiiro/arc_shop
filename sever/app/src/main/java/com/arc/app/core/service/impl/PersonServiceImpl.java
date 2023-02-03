@@ -181,6 +181,7 @@ public class PersonServiceImpl implements PersonService {
         if (id != null && listFile != null && listFile.size() > 0) {
             try {
                 HashSet<ImagePath> imageCards = new HashSet<ImagePath>();
+                Person person = repository.find(id);
                 for (MultipartFile file : listFile) {
                     String extension = file.getOriginalFilename().split("\\.(?=[^\\.]+$)")[1];
                     UUID randomCode = UUID.randomUUID();
@@ -196,9 +197,11 @@ public class PersonServiceImpl implements PersonService {
                     imageCard.setType(file.getContentType());
                     imageCard.setSize(file.getSize());
                     imageCard.setName(fileName);
+                    if(person != null) {
+                        imageCard.setPerson(person);
+                    }
                     imageCards.add(imageCard);
                 }
-                Person person = repository.find(id);
                 if (person != null) {
                     if (imageCards != null && imageCards.size() > 0) {
                         for (ImagePath item : imageCards) {

@@ -90,4 +90,12 @@ public class ImagePath {
     public void setProduct(Product product) {
         this.product = product;
     }
+
+    public ProductSale getProductSale() {
+        return productSale;
+    }
+
+    public void setProductSale(ProductSale productSale) {
+        this.productSale = productSale;
+    }
 }

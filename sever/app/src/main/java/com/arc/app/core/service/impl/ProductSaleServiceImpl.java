@@ -113,6 +113,7 @@ public class ProductSaleServiceImpl implements ProductSaleService {
         if (id != null && listFile != null && listFile.size() > 0) {
             try {
                 HashSet<ImagePath> imageCards = new HashSet<ImagePath>();
+                ProductSale productSale = repository.find(id);
                 for (MultipartFile file : listFile) {
                     String extension = file.getOriginalFilename().split("\\.(?=[^\\.]+$)")[1];
                     UUID randomCode = UUID.randomUUID();
@@ -128,9 +129,11 @@ public class ProductSaleServiceImpl implements ProductSaleService {
                     imageCard.setType(file.getContentType());
                     imageCard.setSize(file.getSize());
                     imageCard.setName(fileName);
+                    if(productSale != null) {
+                        imageCard.setProductSale(productSale);
+                    }
                     imageCards.add(imageCard);
                 }
-                ProductSale productSale = repository.find(id);
                 if (productSale != null) {
                     if (imageCards != null && imageCards.size() > 0) {
                         for (ImagePath item : imageCards) {
