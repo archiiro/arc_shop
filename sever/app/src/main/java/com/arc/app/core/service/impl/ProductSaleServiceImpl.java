@@ -1,18 +1,17 @@
 package com.arc.app.core.service.impl;
 
 import com.arc.app.core.domain.ImagePath;
-import com.arc.app.core.domain.Person;
 import com.arc.app.core.domain.Product;
-import com.arc.app.core.domain.ProductCategory;
-import com.arc.app.core.dto.PersonDto;
-import com.arc.app.core.dto.ProductCategoryDto;
+import com.arc.app.core.domain.ProductSale;
 import com.arc.app.core.dto.ProductDto;
+import com.arc.app.core.dto.ProductSaleDto;
 import com.arc.app.core.dto.SearchDto;
 import com.arc.app.core.other.Constants;
 import com.arc.app.core.repository.ImagePathRepository;
-import com.arc.app.core.repository.ProductCategoryRepository;
-import com.arc.app.core.repository.ProductRepository;
-import com.arc.app.core.service.ProductService;
+import com.arc.app.core.repository.ProductSaleRepository;
+import com.arc.app.core.service.ProductSaleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -20,8 +19,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -34,117 +31,85 @@ import java.util.UUID;
 
 @Transactional
 @Service
-public class ProductServiceImpl implements ProductService {
+public class ProductSaleServiceImpl implements ProductSaleService {
     @PersistenceContext
     private EntityManager manager;
-
     @Autowired
-    private ProductRepository repository;
-
-    @Autowired
-    private ProductCategoryRepository productCategoryRepository;
-
+    private ProductSaleRepository repository;
     @Autowired
     private ImagePathRepository imagePathRepository;
 
-
     private Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
-
     @Override
-    public List<ProductDto> getAll() {
+    public List<ProductSaleDto> getAll() {
         return repository.getAll();
     }
 
     @Override
-    public ProductDto find(Long id) {
-        if (id != null) {
-            Product product = repository.find(id);
-            if (product != null) {
-                return new ProductDto(product, true);
+    public ProductSaleDto find(Long id) {
+        if(id != null) {
+            ProductSale item = repository.find(id);
+            if(item != null) {
+                return new ProductSaleDto(item, true);
             }
         }
         return null;
     }
 
     @Override
-    public ProductDto save(ProductDto dto) {
-        if (dto == null) {
+    public ProductSaleDto save(ProductSaleDto dto) {
+        if(dto == null) {
             return null;
         }
-        Product product = null;
-        if (dto.getId() != null) {
-            product = repository.find(dto.getId());
+        ProductSale productSale = null;
+        if(dto.getId() != null) {
+            productSale = repository.find(dto.getId());
         }
-        if (product == null) {
-            product = new Product();
+        if(productSale == null) {
+            productSale = new ProductSale();
         }
-        if (dto.getCode() != null) {
-            product.setCode(dto.getCode());
+        if(dto.getCode() != null) {
+            productSale.setCode(dto.getCode());
         }
-        if (dto.getName() != null) {
-            product.setName(dto.getName());
+        if(dto.getSale() != null) {
+            productSale.setSale(dto.getSale());
         }
-        if (dto.getDescription() != null) {
-            product.setDescription(dto.getDescription());
+        if(dto.getStartDate() != null) {
+            productSale.setStartDate(dto.getStartDate());
         }
-        if (dto.getPrice() != null) {
-            product.setPrice(dto.getPrice());
+        if(dto.getEndDate() != null) {
+            productSale.setEndDate(dto.getEndDate());
         }
-        if (dto.getQuantity() != null) {
-            product.setQuantity(dto.getQuantity());
-        }
-        if (dto.getUnit() != null) {
-            product.setUnit(dto.getUnit());
-        }
-        if (dto.getStatus() != null) {
-            product.setStatus(dto.getStatus());
-        }
-        if (dto.getProductCategory() != null && dto.getProductCategory().getId() != null) {
-            ProductCategory productCategory = productCategoryRepository.find(dto.getProductCategory().getId());
-            if (productCategory != null) {
-                product.setProductCategory(productCategory);
-            }
-        }
-        product = repository.save(product);
-        return new ProductDto(product, true);
+        productSale = repository.save(productSale);
+        return new ProductSaleDto(productSale, true);
     }
 
     @Override
     public Boolean isExist(String code) {
-        if (code != null) {
+        if(code != null) {
             Long number = repository.count(code);
-            if (number == 0) {
+            if(number == 0) {
                 return true;
             }
         }
-        return null;
+        return false;
     }
 
     @Override
     public Boolean delete(Long id) {
-        if (id != null) {
-            Product product = repository.find(id);
-            if (product != null) {
-                repository.delete(product);
+        if(id != null) {
+            ProductSale item = repository.find(id);
+            if(item != null) {
+                repository.delete(item);
+                return true;
             }
         }
-        return null;
+        return false;
     }
 
     @Override
-    public void makeDelete(Long id) {
-        if (id != null) {
-            Product product = repository.find(id);
-            if (product != null) {
-                product.setStatus(3);
-                repository.save(product);
-            }
-        }
-    }
-
-    @Override
-    public ProductDto saveImageProduct(Long id, List<MultipartFile> listFile) {
+    public ProductSaleDto saveImage(Long id, List<MultipartFile> listFile) {
         if (id != null && listFile != null && listFile.size() > 0) {
             try {
                 HashSet<ImagePath> imageCards = new HashSet<ImagePath>();
@@ -165,21 +130,21 @@ public class ProductServiceImpl implements ProductService {
                     imageCard.setName(fileName);
                     imageCards.add(imageCard);
                 }
-                Product product = repository.find(id);
-                if (product != null) {
+                ProductSale productSale = repository.find(id);
+                if (productSale != null) {
                     if (imageCards != null && imageCards.size() > 0) {
                         for (ImagePath item : imageCards) {
                             imagePathRepository.save(item);
                         }
                     }
-                    if (product != null) {
-                        product.getImageProducts().clear();
-                        product.getImageProducts().addAll(imageCards);
+                    if (productSale != null) {
+                        productSale.getImageProductSales().clear();
+                        productSale.getImageProductSales().addAll(imageCards);
                     } else {
-                        product.setImageProducts(imageCards);
+                        productSale.setImageProductSales(imageCards);
                     }
-                    product = repository.save(product);
-                    return new ProductDto(product, false);
+                    productSale = repository.save(productSale);
+                    return new ProductSaleDto(productSale, false);
                 }
             } catch (Exception e) {
                 logger.error("Error: ", e.getMessage(), e);
@@ -189,7 +154,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductDto> search(SearchDto dto) {
+    public Page<ProductSaleDto> search(SearchDto dto) {
         if(dto != null && dto.getPageIndex() != null && dto.getPageSize() != null) {
             int pageIndex = dto.getPageIndex();
             int pageSize = dto.getPageSize();
@@ -198,16 +163,16 @@ public class ProductServiceImpl implements ProductService {
             } else {
                 pageIndex = 0;
             }
-            String sqlSelect = "Select new com.arc.app.dto.ProductDto(entity, false) From ProductDto entity ";
-            String sqlCount = "Select count(entity.id) From ProductCategory entity ";
+            String sqlSelect = "Select new com.arc.app.dto.ProductSaleDto(entity, false) From ProductSale entity ";
+            String sqlCount = "Select count(entity.id) From ProductSale entity ";
             String orderBy = " Order By entity.code ";
             String whereClause = " Where (1=1) ";
             if(dto.getTextSearch() != null) {
-                whereClause += " AND entity.code Like :textSearch OR entity.name Like :textSearch ";
+                whereClause += " AND entity.code Like :textSearch ";
             }
             sqlSelect += whereClause + orderBy;
             sqlCount += whereClause;
-            Query q = this.manager.createQuery(sqlSelect, ProductDto.class);
+            Query q = this.manager.createQuery(sqlSelect, ProductSaleDto.class);
             Query qCount = this.manager.createQuery(sqlCount);
             if(dto.getTextSearch() != null) {
                 q.setParameter("textSearch", '%' + dto.getTextSearch() + '%');
@@ -217,7 +182,7 @@ public class ProductServiceImpl implements ProductService {
             q.setMaxResults(pageSize);
             Long number = (Long) qCount.getSingleResult();
             Pageable pageable = PageRequest.of(pageIndex, pageSize);
-            Page<ProductDto> page = new PageImpl<>(q.getResultList(), pageable , number);
+            Page<ProductSaleDto> page = new PageImpl<>(q.getResultList(), pageable , number);
             return page;
         }
         return null;

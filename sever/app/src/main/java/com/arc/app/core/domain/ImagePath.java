@@ -31,6 +31,10 @@ public class ImagePath {
     @JoinColumn(name = "id_product")
     private Product product;
 
+    @ManyToOne
+    @JoinColumn(name = "id_product_sale")
+    private ProductSale productSale;
+
     public Long getId() {
         return id;
     }
