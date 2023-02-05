@@ -1,0 +1,24 @@
+<div (mouseenter)="collapseOpenSidenav()" (mouseleave)="collapseCloseSidenav()" [class.collapsed]="collapsed"
+  [class.open]="collapsed && collapsedOpen$ | async" class="sidenav flex flex-col">
+  <div class="vex-sidenav-toolbar__container">
+    <div class="sidenav-toolbar flex-none flex items-center">
+      <img [src]="imageUrl$ | async" alt="Logo" class="w-6 select-none flex-none" />
+      <h2 class="vex-sidenav-toolbar__headline flex-auto">{{ title$ | async }}</h2>
+      <button (click)="toggleCollapse()" *ngIf="showCollapsePin$ | async"
+        class="w-8 h-8 -mr-2 leading-none flex-none hidden lg:block" mat-icon-button type="button">
+        <mat-icon *ngIf="!collapsed" class="text-[0.875rem] w-[0.875rem] h-[0.875rem]"
+          svgIcon="mat:radio_button_checked"></mat-icon>
+        <mat-icon *ngIf="collapsed" class="text-[0.875rem] w-[0.875rem] h-[0.875rem]"
+          svgIcon="mat:radio_button_unchecked"></mat-icon>
+      </button>
+    </div>
+
+    <div class="vex-sidenav-toolbar__divider"></div>
+  </div>
+
+  <vex-scrollbar class="flex-1 flex flex-col">
+    <div class="pt-6 flex-1">
+      <vex-sidenav-item *ngFor="let item of items; trackBy: trackByRoute" [item]="item" [level]="0"></vex-sidenav-item>
+    </div>
+  </vex-scrollbar>
+</div>

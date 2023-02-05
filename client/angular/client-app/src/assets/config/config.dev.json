@@ -1,6 +1,0 @@
-{
-    "SERVER_URL": "http://localhost:8092",
-    "KEYCLOAK_URL": "https://sso.globits.net/auth/",
-    "KEYCLOAK_REALM": "HrPlatform",
-    "KEYCLOAK_CLIENT_ID": "OfficeClient"
-}
